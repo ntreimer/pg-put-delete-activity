@@ -41,7 +41,7 @@ router.post('/',  (req, res) => {
 router.put('/:id', (req, res)=>{
   console.log('book update PUT:', req.params);
   let queryString = `UPDATE "books" SET "isRead"=true WHERE "id"=$1;`;
-  pool.query (queryString, [req.params.id]).then((results)=>{
+  pool.query (queryString, [req.params.id]).then((res)=>{
     res.sendStatus(200);
   }).catch((err)=>{
     console.log(err);
@@ -52,6 +52,15 @@ router.put('/:id', (req, res)=>{
 // TODO - DELETE 
 // Removes a book to show that it has been read
 // Request must include a parameter indicating what book to update - the id
-
+router.delete('/:id', (req, res)=>{
+  console.log('book DELETE:', req.params);
+  let queryString = `DELETE FROM "books" WHERE "id"=$1`;
+  pool.query(queryString, [req.params.id]).then((res)=>{
+    res.sendStatus(200);
+  }).catch((err)=>{
+    console.log(err);
+    res.sendStatus(500);
+  })
+})
 
 module.exports = router;

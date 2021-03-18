@@ -9,7 +9,7 @@ function addClickHandlers() {
 
   // TODO - Add code for edit & delete buttons
   $('#bookShelf').on('click', '.readBtn', markAsRead);
-  // $('#bookShelf').on('click', '.deleteBtn', handleDelete);
+  $('#bookShelf').on('click', '.deleteBtn', deleteBook);
 }
 
 function handleSubmit() {
@@ -35,8 +35,22 @@ function addBook(bookToAdd) {
     });
 }
 
+function deleteBook() {
+  const myID = $(this).data('id');
+  console.log('in deleteBook:', myID);
+  $.ajax({
+    method: 'DELETE',
+    url: '/books/' + myID
+  }).then(function(response){
+    console.log(response);
+    refreshBooks;
+  }).catch(function(err){
+    console.log(err);
+  })
+}
+
 function markAsRead() {
-  const myID = $(this).data('id')
+  const myID = $(this).data('id');
   console.log('in markAsRead:', myID);
   $.ajax({
     method: 'PUT',
